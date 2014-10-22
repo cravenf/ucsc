@@ -1,0 +1,356 @@
+Title	HelloWorld
+Due	Dec 1, 2014 5:00 pm
+Status	Not Started
+Grade Scale	Points (max 10.0)
+Instructions
+Ref: https://github.com/Shengliang/e4357.git
+
+4357 Embedded Firmware Essentials
+- Program Assignment #2
+
+1. Login to mbed web site, export the "Hello World" program to all of the following targets.
+   How many text files and how many lines of text code in the exported offline code package?  
+   How many binary (library or object) files?
+   How many files are different between (a) and (b)? (Use linux commands: find, wc, diff) (10 points)
+    What is the "Entry point address:" of your program?  (hint: using readelf)
+   
+   a.   Exporting to uVision
+   b.   Exporting to GCC ARM Embedded
+
+   Note: Right Click your program, then select "export ..."
+   
+Text files (*.c, *.cpp, *.h, *.txt):		82
+Library or object files (*.a*, *.o):	7 or 6
+Different files (between uVision and GCC ARM – see DIFFS at end of document):	5
+	3 of these exist only in one or the other build platform.
+	2 of these are differently named directories.
+Entry point address:			?
+I wasn’t able to get readelf/objdump to work on HelloWorld_LPC1768.bin.  When I build the HelloWorld app in the mbed environment, it downloads a .bin file.  This file is not recognized by readelf:
+cravenf@aviatic2 /cygdrive/c/Users/cravenf/My Documents/UCSC Embedded Systems/Embedded Firmware Essentials/HW/HW02
+$ ls
+~$HW02.docx                     HelloWorld_LPC1768.bin          HW02.docx
+HelloWorld_gcc_arm_lpc1768      HelloWorld_uvision_lpc1768      tree.txt
+HelloWorld_gcc_arm_lpc1768.zip  HelloWorld_uvision_lpc1768.zip
+
+cravenf@aviatic2 /cygdrive/c/Users/cravenf/My Documents/UCSC Embedded Systems/Embedded Firmware Essentials/HW/HW02
+$ readelf -a HelloWorld_LPC1768.bin
+readelf: Error: Not an ELF file - it has the wrong magic bytes at the start
+
+If I try to make the application using make in bash, I do not have the required cross-development tools:
+cravenf@aviatic2 /cygdrive/c/Users/cravenf/My Documents/UCSC Embedded Systems/Em
+bedded Firmware Essentials/HW/HW02/HelloWorld_gcc_arm_lpc1768/HelloWorld
+$ make
+arm-none-eabi-g++ -mcpu=cortex-m3 -mthumb -c -g -fno-common -fmessage-length=0 -Wall -fno-exceptions -ffunction-sections -fdata-sections -fomit-frame-pointer -MMD -MP -DNDEBUG -Os -DTARGET_LPC1768 -DTARGET_M3 -DTARGET_NXP -DTARGET_LPC176X -DTARGET_MBED_LPC1768 -DTOOLCHAIN_GCC_ARM -DTOOLCHAIN_GCC -D__CORTEX_M3 DARM_MATH_CM3 -DMBED_BUILD_TIMESTAMP=1413754624.79 -D__MBED__=1  -std=gnu++98 -I. -I./mbed -I./mbed/TARGET_LPC1768 -I./mbed/TARGET_LPC1768/TOOLCHAIN_GCC_ARM -I./mbed/TARGET_LPC1768/TARGET_NXP -I./mbed/TARGET_LPC1768/TARGET_NXP/TARGET_LPC176X -I./mbed/TARGET_LPC1768/TARGET_NXP/TARGET_LPC176X/TARGET_MBED_LPC1768  -o main.o main.cpp
+make: arm-none-eabi-g++: Command not found
+Makefile:46: recipe for target 'main.o' failed
+make: *** [main.o] Error 127
+
+Keil uVision4
+cravenf@aviatic2 /cygdrive/c/Documents and Settings/cravenf/My Documents/UCSC Embedded Systems/Embedded Firmware Essentials/HW/HW02/HelloWorld_uvision_lpc1768/HelloWorld$ ls -lR
+.:
+total 46
+-rwx------+ 1 Administrators mkpasswd  6912 Oct 19 14:59 HelloWorld.uvopt
+-rwx------+ 1 Administrators mkpasswd 15830 Oct 19 14:59 HelloWorld.uvproj
+-rwx------+ 1 Administrators mkpasswd   156 Oct 19 14:59 main.cpp
+drwx------+ 1 Administrators mkpasswd     0 Oct 19 14:59 mbed
+-rwx------+ 1 Administrators mkpasswd    65 Oct 19 14:59 mbed.bld
+-rwx------+ 1 Administrators mkpasswd  3075 Oct 19 15:15 tree.txt	 my file, so not counted
+
+./mbed:
+total 280
+-rwx------+ 1 Administrators mkpasswd 2589 Oct 19 14:59 AnalogIn.h
+-rwx------+ 1 Administrators mkpasswd 1043 Oct 19 14:59 analogin_api.h
+-rwx------+ 1 Administrators mkpasswd 3221 Oct 19 14:59 AnalogOut.h
+-rwx------+ 1 Administrators mkpasswd 1185 Oct 19 14:59 analogout_api.h
+-rwx------+ 1 Administrators mkpasswd 2237 Oct 19 14:59 BusIn.h
+-rwx------+ 1 Administrators mkpasswd 2695 Oct 19 14:59 BusInOut.h
+-rwx------+ 1 Administrators mkpasswd 2364 Oct 19 14:59 BusOut.h
+-rwx------+ 1 Administrators mkpasswd 4779 Oct 19 14:59 CallChain.h
+-rwx------+ 1 Administrators mkpasswd 6882 Oct 19 14:59 CAN.h
+-rwx------+ 1 Administrators mkpasswd 2189 Oct 19 14:59 can_api.h
+-rwx------+ 1 Administrators mkpasswd 1463 Oct 19 14:59 can_helper.h
+-rwx------+ 1 Administrators mkpasswd 2305 Oct 19 14:59 DigitalIn.h
+-rwx------+ 1 Administrators mkpasswd 2982 Oct 19 14:59 DigitalInOut.h
+-rwx------+ 1 Administrators mkpasswd 2561 Oct 19 14:59 DigitalOut.h
+-rwx------+ 1 Administrators mkpasswd 2968 Oct 19 14:59 DirHandle.h
+-rwx------+ 1 Administrators mkpasswd 4674 Oct 19 14:59 Ethernet.h
+-rwx------+ 1 Administrators mkpasswd 1640 Oct 19 14:59 ethernet_api.h
+-rwx------+ 1 Administrators mkpasswd 1866 Oct 19 14:59 FileBase.h
+-rwx------+ 1 Administrators mkpasswd 3508 Oct 19 14:59 FileHandle.h
+-rwx------+ 1 Administrators mkpasswd 1223 Oct 19 14:59 FileLike.h
+-rwx------+ 1 Administrators mkpasswd 1158 Oct 19 14:59 FilePath.h
+-rwx------+ 1 Administrators mkpasswd 3211 Oct 19 14:59 FileSystemLike.h
+-rwx------+ 1 Administrators mkpasswd 3118 Oct 19 14:59 FunctionPointer.h
+-rwx------+ 1 Administrators mkpasswd 1620 Oct 19 14:59 gpio_api.h
+-rwx------+ 1 Administrators mkpasswd 1334 Oct 19 14:59 gpio_irq_api.h
+-rwx------+ 1 Administrators mkpasswd 3608 Oct 19 14:59 I2C.h
+-rwx------+ 1 Administrators mkpasswd 1753 Oct 19 14:59 i2c_api.h
+-rwx------+ 1 Administrators mkpasswd 4141 Oct 19 14:59 I2CSlave.h
+-rwx------+ 1 Administrators mkpasswd 3629 Oct 19 14:59 InterruptIn.h
+-rwx------+ 1 Administrators mkpasswd 4350 Oct 19 14:59 InterruptManager.h
+-rwx------+ 1 Administrators mkpasswd 3194 Oct 19 14:59 LocalFileSystem.h
+-rwx------+ 1 Administrators mkpasswd 1637 Oct 19 14:59 mbed.h
+-rwx------+ 1 Administrators mkpasswd 1700 Oct 19 14:59 mbed_assert.h
+-rwx------+ 1 Administrators mkpasswd 1854 Oct 19 14:59 mbed_debug.h
+-rwx------+ 1 Administrators mkpasswd 1933 Oct 19 14:59 mbed_error.h
+-rwx------+ 1 Administrators mkpasswd 3714 Oct 19 14:59 mbed_interface.h
+-rwx------+ 1 Administrators mkpasswd 1234 Oct 19 14:59 pinmap.h
+-rwx------+ 1 Administrators mkpasswd  896 Oct 19 14:59 platform.h
+-rwx------+ 1 Administrators mkpasswd 1176 Oct 19 14:59 port_api.h
+-rwx------+ 1 Administrators mkpasswd 2183 Oct 19 14:59 PortIn.h
+-rwx------+ 1 Administrators mkpasswd 2517 Oct 19 14:59 PortInOut.h
+-rwx------+ 1 Administrators mkpasswd 2457 Oct 19 14:59 PortOut.h
+-rwx------+ 1 Administrators mkpasswd 4339 Oct 19 14:59 PwmOut.h
+-rwx------+ 1 Administrators mkpasswd 1408 Oct 19 14:59 pwmout_api.h
+-rwx------+ 1 Administrators mkpasswd 2177 Oct 19 14:59 RawSerial.h
+-rwx------+ 1 Administrators mkpasswd  980 Oct 19 14:59 rtc_api.h
+-rwx------+ 1 Administrators mkpasswd 2050 Oct 19 14:59 rtc_time.h
+-rwx------+ 1 Administrators mkpasswd 2662 Oct 19 14:59 semihost_api.h
+-rwx------+ 1 Administrators mkpasswd 1706 Oct 19 14:59 Serial.h
+-rwx------+ 1 Administrators mkpasswd 2111 Oct 19 14:59 serial_api.h
+-rwx------+ 1 Administrators mkpasswd 4003 Oct 19 14:59 SerialBase.h
+-rwx------+ 1 Administrators mkpasswd 2315 Oct 19 14:59 sleep_api.h
+-rwx------+ 1 Administrators mkpasswd 2742 Oct 19 14:59 SPI.h
+-rwx------+ 1 Administrators mkpasswd 1317 Oct 19 14:59 spi_api.h
+-rwx------+ 1 Administrators mkpasswd 3289 Oct 19 14:59 SPISlave.h
+-rwx------+ 1 Administrators mkpasswd 1668 Oct 19 14:59 Stream.h
+drwx------+ 1 Administrators mkpasswd    0 Oct 19 14:59 TARGET_LPC1768
+-rwx------+ 1 Administrators mkpasswd 3452 Oct 19 14:59 Ticker.h
+-rwx------+ 1 Administrators mkpasswd 1352 Oct 19 14:59 Timeout.h
+-rwx------+ 1 Administrators mkpasswd 1958 Oct 19 14:59 Timer.h
+-rwx------+ 1 Administrators mkpasswd 1365 Oct 19 14:59 TimerEvent.h
+-rwx------+ 1 Administrators mkpasswd 1013 Oct 19 14:59 toolchain.h
+-rwx------+ 1 Administrators mkpasswd 1496 Oct 19 14:59 us_ticker_api.h
+-rwx------+ 1 Administrators mkpasswd 1573 Oct 19 14:59 wait_api.h
+
+./mbed/TARGET_LPC1768:
+total 398
+-rwx------+ 1 Administrators mkpasswd    283 Oct 19 14:59 cmsis.h
+-rwx------+ 1 Administrators mkpasswd    516 Oct 19 14:59 cmsis_nvic.h
+-rwx------+ 1 Administrators mkpasswd  33042 Oct 19 14:59 core_cm0.h
+-rwx------+ 1 Administrators mkpasswd  40429 Oct 19 14:59 core_cm0plus.h
+-rwx------+ 1 Administrators mkpasswd  99832 Oct 19 14:59 core_cm3.h
+-rwx------+ 1 Administrators mkpasswd 109142 Oct 19 14:59 core_cm4.h
+-rwx------+ 1 Administrators mkpasswd  22735 Oct 19 14:59 core_cm4_simd.h
+-rwx------+ 1 Administrators mkpasswd  17146 Oct 19 14:59 core_cmFunc.h
+-rwx------+ 1 Administrators mkpasswd  20513 Oct 19 14:59 core_cmInstr.h
+-rwx------+ 1 Administrators mkpasswd  36106 Oct 19 14:59 LPC17xx.h
+-rwx------+ 1 Administrators mkpasswd   1842 Oct 19 14:59 system_LPC17xx.h
+drwx------+ 1 Administrators mkpasswd      0 Oct 19 14:59 TARGET_NXP
+drwx------+ 1 Administrators mkpasswd      0 Oct 19 14:59 TOOLCHAIN_ARM_STD
+
+./mbed/TARGET_LPC1768/TARGET_NXP:
+total 4
+drwx------+ 1 Administrators mkpasswd 0 Oct 19 14:59 TARGET_LPC176X
+
+./mbed/TARGET_LPC1768/TARGET_NXP/TARGET_LPC176X:
+total 16
+-rwx------+ 1 Administrators mkpasswd 1351 Oct 19 14:59 gpio_object.h
+-rwx------+ 1 Administrators mkpasswd 1526 Oct 19 14:59 objects.h
+-rwx------+ 1 Administrators mkpasswd 2506 Oct 19 14:59 PeripheralNames.h
+-rwx------+ 1 Administrators mkpasswd  895 Oct 19 14:59 PortNames.h
+drwx------+ 1 Administrators mkpasswd    0 Oct 19 14:59 TARGET_MBED_LPC1768
+
+./mbed/TARGET_LPC1768/TARGET_NXP/TARGET_LPC176X/TARGET_MBED_LPC1768:
+total 9
+-rwx------+ 1 Administrators mkpasswd 1598 Oct 19 14:59 device.h
+-rwx------+ 1 Administrators mkpasswd 3709 Oct 19 14:59 PinNames.h
+-rwx------+ 1 Administrators mkpasswd  140 Oct 19 14:59 reserved_pins.h
+
+./mbed/TARGET_LPC1768/TOOLCHAIN_ARM_STD:
+total 525
+-rwx------+ 1 Administrators mkpasswd   4232 Oct 19 14:59 board.o
+-rwx------+ 1 Administrators mkpasswd   4152 Oct 19 14:59 cmsis_nvic.o
+-rwx------+ 1 Administrators mkpasswd    589 Oct 19 14:59 LPC1768.sct
+-rwx------+ 1 Administrators mkpasswd 476534 Oct 19 14:59 mbed.ar
+-rwx------+ 1 Administrators mkpasswd  23328 Oct 19 14:59 retarget.o
+-rwx------+ 1 Administrators mkpasswd   3944 Oct 19 14:59 startup_LPC17xx.o
+-rwx------+ 1 Administrators mkpasswd   2544 Oct 19 14:59 sys.o
+-rwx------+ 1 Administrators mkpasswd   4680 Oct 19 14:59 system_LPC17xx.o
+
+cravenf@aviatic2 /cygdrive/c/Documents and Settings/cravenf/My Documents/UCSC Embedded Systems/Embedded Firmware Essentials/HW/HW02/HelloWorld_uvision_lpc1768/HelloWorld
+$ ls -lR|find -name '*.c*'
+./.hg/store/data/main.cpp.i
+./main.cpp
+cravenf@aviatic2 /cygdrive/c/Documents and Settings/cravenf/My Documents/UCSC Embedded Systems/Embedded Firmware Essentials/HW/HW02/HelloWorld_uvision_lpc1768/HelloWorld
+$ ls -lR|find -name '*.c'|wc -l
+0
+cravenf@aviatic2 /cygdrive/c/Documents and Settings/cravenf/My Documents/UCSC Embedded Systems/Embedded Firmware Essentials/HW/HW02/HelloWorld_uvision_lpc1768/HelloWorld
+$ ls -lR|find -name '*.cpp'|wc -l
+1
+cravenf@aviatic2 /cygdrive/c/Documents and Settings/cravenf/My Documents/UCSC Embedded Systems/Embedded Firmware Essentials/HW/HW02/HelloWorld_uvision_lpc1768/HelloWorld
+$ ls -lR|find -name '*.h'|wc -l
+81
+cravenf@aviatic2 /cygdrive/c/Documents and Settings/cravenf/My Documents/UCSC Embedded Systems/Embedded Firmware Essentials/HW/HW02/HelloWorld_uvision_lpc1768/HelloWorld
+$ ls -lR|find -name '*.hpp'|wc –l
+0
+cravenf@aviatic2 /cygdrive/c/Documents and Settings/cravenf/My Documents/UCSC Embedded Systems/Embedded Firmware Essentials/HW/HW02/HelloWorld_uvision_lpc1768/HelloWorld
+$ ls -lR|find -name '*.o'|wc -l
+6
+cravenf@aviatic2 /cygdrive/c/Documents and Settings/cravenf/My Documents/UCSC Embedded Systems/Embedded Firmware Essentials/HW/HW02/HelloWorld_uvision_lpc1768/HelloWorld
+$ ls -lR|find -name '*.ar'|wc -l
+1
+
+GCC (ARM Embedded)
+cravenf@aviatic2 /cygdrive/c/Documents and Settings/cravenf/My Documents/UCSC Embedded Systems/Embedded Firmware Essentials/HW/HW02/HelloWorld_gcc_arm_lpc1768/HelloWorld
+$ ls -lR
+.:
+total 22
+-rwx------+ 1 Administrators mkpasswd  156 Oct 19 14:59 main.cpp
+-rwx------+ 1 Administrators mkpasswd 2348 Oct 19 14:59 Makefile
+drwx------+ 1 Administrators mkpasswd    0 Oct 19 15:00 mbed
+-rwx------+ 1 Administrators mkpasswd   65 Oct 19 14:59 mbed.bld
+
+./mbed:
+total 280
+-rwx------+ 1 Administrators mkpasswd 2589 Oct 19 15:00 AnalogIn.h
+-rwx------+ 1 Administrators mkpasswd 1043 Oct 19 14:59 analogin_api.h
+-rwx------+ 1 Administrators mkpasswd 3221 Oct 19 14:59 AnalogOut.h
+-rwx------+ 1 Administrators mkpasswd 1185 Oct 19 14:59 analogout_api.h
+-rwx------+ 1 Administrators mkpasswd 2237 Oct 19 14:59 BusIn.h
+-rwx------+ 1 Administrators mkpasswd 2695 Oct 19 14:59 BusInOut.h
+-rwx------+ 1 Administrators mkpasswd 2364 Oct 19 15:00 BusOut.h
+-rwx------+ 1 Administrators mkpasswd 4779 Oct 19 14:59 CallChain.h
+-rwx------+ 1 Administrators mkpasswd 6882 Oct 19 14:59 CAN.h
+-rwx------+ 1 Administrators mkpasswd 2189 Oct 19 14:59 can_api.h
+-rwx------+ 1 Administrators mkpasswd 1463 Oct 19 14:59 can_helper.h
+-rwx------+ 1 Administrators mkpasswd 2305 Oct 19 14:59 DigitalIn.h
+-rwx------+ 1 Administrators mkpasswd 2982 Oct 19 14:59 DigitalInOut.h
+-rwx------+ 1 Administrators mkpasswd 2561 Oct 19 14:59 DigitalOut.h
+-rwx------+ 1 Administrators mkpasswd 2968 Oct 19 14:59 DirHandle.h
+-rwx------+ 1 Administrators mkpasswd 4674 Oct 19 14:59 Ethernet.h
+-rwx------+ 1 Administrators mkpasswd 1640 Oct 19 14:59 ethernet_api.h
+-rwx------+ 1 Administrators mkpasswd 1866 Oct 19 14:59 FileBase.h
+-rwx------+ 1 Administrators mkpasswd 3508 Oct 19 14:59 FileHandle.h
+-rwx------+ 1 Administrators mkpasswd 1223 Oct 19 14:59 FileLike.h
+-rwx------+ 1 Administrators mkpasswd 1158 Oct 19 15:00 FilePath.h
+-rwx------+ 1 Administrators mkpasswd 3211 Oct 19 15:00 FileSystemLike.h
+-rwx------+ 1 Administrators mkpasswd 3118 Oct 19 14:59 FunctionPointer.h
+-rwx------+ 1 Administrators mkpasswd 1620 Oct 19 14:59 gpio_api.h
+-rwx------+ 1 Administrators mkpasswd 1334 Oct 19 14:59 gpio_irq_api.h
+-rwx------+ 1 Administrators mkpasswd 3608 Oct 19 14:59 I2C.h
+-rwx------+ 1 Administrators mkpasswd 1753 Oct 19 14:59 i2c_api.h
+-rwx------+ 1 Administrators mkpasswd 4141 Oct 19 15:00 I2CSlave.h
+-rwx------+ 1 Administrators mkpasswd 3629 Oct 19 14:59 InterruptIn.h
+-rwx------+ 1 Administrators mkpasswd 4350 Oct 19 14:59 InterruptManager.h
+-rwx------+ 1 Administrators mkpasswd 3194 Oct 19 14:59 LocalFileSystem.h
+-rwx------+ 1 Administrators mkpasswd 1637 Oct 19 14:59 mbed.h
+-rwx------+ 1 Administrators mkpasswd 1700 Oct 19 14:59 mbed_assert.h
+-rwx------+ 1 Administrators mkpasswd 1854 Oct 19 14:59 mbed_debug.h
+-rwx------+ 1 Administrators mkpasswd 1933 Oct 19 14:59 mbed_error.h
+-rwx------+ 1 Administrators mkpasswd 3714 Oct 19 14:59 mbed_interface.h
+-rwx------+ 1 Administrators mkpasswd 1234 Oct 19 14:59 pinmap.h
+-rwx------+ 1 Administrators mkpasswd  896 Oct 19 14:59 platform.h
+-rwx------+ 1 Administrators mkpasswd 1176 Oct 19 14:59 port_api.h
+-rwx------+ 1 Administrators mkpasswd 2183 Oct 19 14:59 PortIn.h
+-rwx------+ 1 Administrators mkpasswd 2517 Oct 19 14:59 PortInOut.h
+-rwx------+ 1 Administrators mkpasswd 2457 Oct 19 14:59 PortOut.h
+-rwx------+ 1 Administrators mkpasswd 4339 Oct 19 14:59 PwmOut.h
+-rwx------+ 1 Administrators mkpasswd 1408 Oct 19 14:59 pwmout_api.h
+-rwx------+ 1 Administrators mkpasswd 2177 Oct 19 15:00 RawSerial.h
+-rwx------+ 1 Administrators mkpasswd  980 Oct 19 14:59 rtc_api.h
+-rwx------+ 1 Administrators mkpasswd 2050 Oct 19 14:59 rtc_time.h
+-rwx------+ 1 Administrators mkpasswd 2662 Oct 19 15:00 semihost_api.h
+-rwx------+ 1 Administrators mkpasswd 1706 Oct 19 14:59 Serial.h
+-rwx------+ 1 Administrators mkpasswd 2111 Oct 19 14:59 serial_api.h
+-rwx------+ 1 Administrators mkpasswd 4003 Oct 19 15:00 SerialBase.h
+-rwx------+ 1 Administrators mkpasswd 2315 Oct 19 14:59 sleep_api.h
+-rwx------+ 1 Administrators mkpasswd 2742 Oct 19 14:59 SPI.h
+-rwx------+ 1 Administrators mkpasswd 1317 Oct 19 14:59 spi_api.h
+-rwx------+ 1 Administrators mkpasswd 3289 Oct 19 14:59 SPISlave.h
+-rwx------+ 1 Administrators mkpasswd 1668 Oct 19 15:00 Stream.h
+drwx------+ 1 Administrators mkpasswd    0 Oct 19 15:00 TARGET_LPC1768
+-rwx------+ 1 Administrators mkpasswd 3452 Oct 19 14:59 Ticker.h
+-rwx------+ 1 Administrators mkpasswd 1352 Oct 19 14:59 Timeout.h
+-rwx------+ 1 Administrators mkpasswd 1958 Oct 19 14:59 Timer.h
+-rwx------+ 1 Administrators mkpasswd 1365 Oct 19 14:59 TimerEvent.h
+-rwx------+ 1 Administrators mkpasswd 1013 Oct 19 15:00 toolchain.h
+-rwx------+ 1 Administrators mkpasswd 1496 Oct 19 14:59 us_ticker_api.h
+-rwx------+ 1 Administrators mkpasswd 1573 Oct 19 14:59 wait_api.h
+
+./mbed/TARGET_LPC1768:
+total 398
+-rwx------+ 1 Administrators mkpasswd    283 Oct 19 15:00 cmsis.h
+-rwx------+ 1 Administrators mkpasswd    516 Oct 19 15:00 cmsis_nvic.h
+-rwx------+ 1 Administrators mkpasswd  33042 Oct 19 15:00 core_cm0.h
+-rwx------+ 1 Administrators mkpasswd  40429 Oct 19 15:00 core_cm0plus.h
+-rwx------+ 1 Administrators mkpasswd  99832 Oct 19 15:00 core_cm3.h
+-rwx------+ 1 Administrators mkpasswd 109142 Oct 19 15:00 core_cm4.h
+-rwx------+ 1 Administrators mkpasswd  22735 Oct 19 15:00 core_cm4_simd.h
+-rwx------+ 1 Administrators mkpasswd  17146 Oct 19 15:00 core_cmFunc.h
+-rwx------+ 1 Administrators mkpasswd  20513 Oct 19 15:00 core_cmInstr.h
+-rwx------+ 1 Administrators mkpasswd  36106 Oct 19 15:00 LPC17xx.h
+-rwx------+ 1 Administrators mkpasswd   1842 Oct 19 15:00 system_LPC17xx.h
+drwx------+ 1 Administrators mkpasswd      0 Oct 19 15:00 TARGET_NXP
+drwx------+ 1 Administrators mkpasswd      0 Oct 19 15:00 TOOLCHAIN_GCC_ARM
+
+./mbed/TARGET_LPC1768/TARGET_NXP:
+total 4
+drwx------+ 1 Administrators mkpasswd 0 Oct 19 15:00 TARGET_LPC176X
+
+./mbed/TARGET_LPC1768/TARGET_NXP/TARGET_LPC176X:
+total 16
+-rwx------+ 1 Administrators mkpasswd 1351 Oct 19 15:00 gpio_object.h
+-rwx------+ 1 Administrators mkpasswd 1526 Oct 19 15:00 objects.h
+-rwx------+ 1 Administrators mkpasswd 2506 Oct 19 15:00 PeripheralNames.h
+-rwx------+ 1 Administrators mkpasswd  895 Oct 19 15:00 PortNames.h
+drwx------+ 1 Administrators mkpasswd    0 Oct 19 15:00 TARGET_MBED_LPC1768
+
+./mbed/TARGET_LPC1768/TARGET_NXP/TARGET_LPC176X/TARGET_MBED_LPC1768:
+total 9
+-rwx------+ 1 Administrators mkpasswd 1598 Oct 19 15:00 device.h
+-rwx------+ 1 Administrators mkpasswd 3709 Oct 19 15:00 PinNames.h
+-rwx------+ 1 Administrators mkpasswd  140 Oct 19 15:00 reserved_pins.h
+
+./mbed/TARGET_LPC1768/TOOLCHAIN_GCC_ARM:
+total 252
+-rwx------+ 1 Administrators mkpasswd   1632 Oct 19 15:00 board.o
+-rwx------+ 1 Administrators mkpasswd   1123 Oct 19 15:00 cmsis_nvic.o
+-rwx------+ 1 Administrators mkpasswd 217086 Oct 19 15:00 libmbed.a
+-rwx------+ 1 Administrators mkpasswd   4087 Oct 19 15:00 LPC1768.ld
+-rwx------+ 1 Administrators mkpasswd   8736 Oct 19 15:00 retarget.o
+-rwx------+ 1 Administrators mkpasswd   8572 Oct 19 15:00 startup_LPC17xx.o
+-rwx------+ 1 Administrators mkpasswd   1728 Oct 19 15:00 system_LPC17xx.o
+
+cravenf@aviatic2 /cygdrive/c/Documents and Settings/cravenf/My Documents/UCSC Embedded Systems/Embedded Firmware Essentials/HW/HW02/HelloWorld_gcc_arm_lpc1768/HelloWorld
+$ ls -lR|find -name '*.a'|wc -l
+1
+
+cravenf@aviatic2 /cygdrive/c/Documents and Settings/cravenf/My Documents/UCSC Embedded Systems/Embedded Firmware Essentials/HW/HW02/HelloWorld_gcc_arm_lpc1768/HelloWorld
+$ ls -lR|find -name '*.o'|wc -l
+5
+
+cravenf@aviatic2 /cygdrive/c/Documents and Settings/cravenf/My Documents/UCSC Embedded Systems/Embedded Firmware Essentials/HW/HW02/HelloWorld_gcc_arm_lpc1768/HelloWorld
+$ ls -lR|find -name '*.h'|wc -l
+81
+
+cravenf@aviatic2 /cygdrive/c/Documents and Settings/cravenf/My Documents/UCSC Embedded Systems/Embedded Firmware Essentials/HW/HW02/HelloWorld_gcc_arm_lpc1768/HelloWorld
+$ ls -lR|find -name '*.c'|wc -l
+0
+
+cravenf@aviatic2 /cygdrive/c/Documents and Settings/cravenf/My Documents/UCSC Embedded Systems/Embedded Firmware Essentials/HW/HW02/HelloWorld_gcc_arm_lpc1768/HelloWorld
+$ ls -lR|find -name '*.cpp'|wc -l
+1
+
+cravenf@aviatic2 /cygdrive/c/Documents and Settings/cravenf/My Documents/UCSC Embedded Systems/Embedded Firmware Essentials/HW/HW02/HelloWorld_gcc_arm_lpc1768/HelloWorld
+$ ls -lR|find -name '*.hpp'|wc -l
+0
+
+cravenf@aviatic2 /cygdrive/c/Documents and Settings/cravenf/My Documents/UCSC Embedded Systems/Embedded Firmware Essentials/HW/HW02/HelloWorld_gcc_arm_lpc1768/HelloWorld
+$ ls -lR|find -name '*.t*'|wc -l
+0
+
+
+
+DIFFS
+
+cravenf@aviatic2 /cygdrive/c/Documents and Settings/cravenf/My Documents/UCSC Embedded Systems/Embedded Firmware Essentials/HW/HW02
+$ diff -r --paginate HelloWorld_gcc_arm_lpc1768 HelloWorld_uvision_lpc1768
+Only in HelloWorld_uvision_lpc1768/HelloWorld: HelloWorld.uvopt
+Only in HelloWorld_uvision_lpc1768/HelloWorld: HelloWorld.uvproj
+Only in HelloWorld_gcc_arm_lpc1768/HelloWorld: Makefile
+Only in HelloWorld_uvision_lpc1768/HelloWorld/mbed/TARGET_LPC1768: TOOLCHAIN_ARM_STD
+Only in HelloWorld_gcc_arm_lpc1768/HelloWorld/mbed/TARGET_LPC1768: TOOLCHAIN_GCC_ARM
+
+cravenf@aviatic2 /cygdrive/c/Documents and Settings/cravenf/My Documents/UCSC Embedded Systems/Embedded Firmware Essentials/HW/HW02
+$
